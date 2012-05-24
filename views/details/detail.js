@@ -6,6 +6,7 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 	var signals = [];
 	var _isComplete = false;
 	var _isDelete = false;
+	var _detailsSetup = false;
 	todoApp._addNewItemCommit = false; // identify the new item is committed
 
 	// transform the repeat to the correct text
@@ -101,6 +102,31 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 		//widget.target = null;
 		itemlistmodel.set("cursorIndex",todoApp.selected_item);
 		widget.set("target", at(itemlistmodel, "cursor"));
+
+		if(!_detailsSetup){  // these only have to be setup once.
+			_detailsSetup = true;
+
+			// Setup data bindings here for the fields inside the item_detailsGroup.
+			
+			// use at() to bind the title into the ExpandingTextArea
+			registry.byId("detail_todo").set("value", at('rel:', 'title'));
+
+			// use at() to bind the reminderDate into the Output
+			registry.byId("detail_reminderDate").set("value", at('rel:','reminderDate'));
+
+			// use at() to bind the notes into the ExpandingTextArea
+			registry.byId("detail_todoNote").set("value", at('rel:', 'notes'));
+
+			// use at() with direction and transform to bind the repeat
+			registry.byId("detail_repeat").set("rightText", at('rel:', 'repeat').direction(at.from).transform(repeatTransform));
+
+			// use at() with direction and transform to bind the priority
+			registry.byId("detail_priority").set("rightText", at('rel:', 'priority').direction(at.from).transform(priorityTransform));
+
+			// use at() with direction and transform to bind the parentId
+			registry.byId("detail_list").set("rightText", at('rel:', 'parentId').direction(at.from).transform(parentTitleTransform));
+
+		}
 
 		domStyle.set(dom.byId("detailwrapper"), "visibility", "visible"); // show the items list
 

@@ -1,24 +1,18 @@
 <div class="view mblView">
-	<script type="dojo/require">at: "dojox/mvc/at"</script>
 	<h1 data-dojo-type="dojox.mobile.Heading" region="top" label="Details" back="Back"></h1>
 	<div data-dojo-type="dojox.app.widgets.Container" id="details" scrollable="true">
 	<div id="detailwrapper" style="visibility:hidden">
-		<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group" 
-				data-dojo-props="target: at(this.loadedModels.itemlistmodel, 'cursor')">
+		<div class="fieldset" id="item_detailsGroup" data-dojo-type="dojox.mvc.Group">
 				<div  class="itemcellwrapper">
 					<textarea id="detail_todo" data-dojo-type="dojox.mobile.ExpandingTextArea"  class="itemcell"
-						placeholder="Title"  
-						data-dojo-props="value: at('rel:', 'title')"></textarea>
+						placeholder="Title"></textarea>
 				</div>
 			<ul data-dojo-type="dojox.mobile.RoundRectList">
 				<li id="detail_reminder" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Remind",target:"details,remind",url: "#details,remind"}'>
-					<div data-dojo-type="dojox.mvc.Output" class="mblListItemRightText"
-							data-dojo-props="value: at('rel:','reminderDate')"></div>					
-				
+					<div id="detail_reminderDate" data-dojo-type="dojox.mvc.Output" class="mblListItemRightText"></div>									
 				Remind Me
 				</li>
-				<li id="detail_repeat" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Repeat",target:"details,repeat",url: "#details,repeat"}'
-							data-dojo-props="rightText: at('rel:','repeat').direction(at.from).transform(repeatTransform)">
+				<li id="detail_repeat" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Repeat",target:"details,repeat",url: "#details,repeat"}'>
 				Repeat
 				</li>
 			</ul>
@@ -27,20 +21,17 @@
 				Show More...
 				</li>
 				<div id="moreDetail" style="display:none;">
-					<li id="detail_priority" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Priority",target:"details,priority",url: "#details,priority"}'
-							data-dojo-props="rightText: at('rel:','priority').direction(at.from).transform(priorityTransform)">
+					<li id="detail_priority" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"Priority",target:"details,priority",url: "#details,priority"}'>
 					Priority
 					</li>
-					<li id="detail_list" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"List",target:"details,list",url: "#details,list"}'
-							data-dojo-props="rightText: at('rel:','parentId').direction(at.from).transform(parentTitleTransform)">
+					<li id="detail_list" data-dojo-type="dojox.mobile.ListItem" clickable="true" transitionOptions='{title:"List",target:"details,list",url: "#details,list"}'>
 					List
 					</li>
 				</div>
 			</ul>
 			<div id="moreDetailNotes" class="itemcellwrapper" style="display:none;">
 				<textarea id="detail_todoNote" data-dojo-type="dojox.mobile.ExpandingTextArea" 
-						class="itemcell" placeholder="Notes"  
-						data-dojo-props="value: at('rel:', 'notes')">
+						class="itemcell" placeholder="Notes">
 				</textarea>
 			</div>			
 		</div>

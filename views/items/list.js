@@ -1,7 +1,9 @@
 define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/when", "dijit/registry", "dojox/mvc/at",
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
-        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore"],
-function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore){
+        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mvc/Repeat", 
+        "dojo/_base/declare", "dojox/mobile/TransitionEvent"],
+function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, 
+	ItemFileWriteStore, DataStore, Repeat, declare, TransitionEvent){
 	//set todoApp showItemDetails function
 	todoApp.cachedDataModel = {};
 	todoApp.currentItemListModel = null;
@@ -14,12 +16,29 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 
 	var listsmodel = null;
 	var itemlistmodel = null;
+	var repeatWid = null;
 
 	var showListData = function(datamodel){
-		//console.log("in showListData datamodel = ",datamodel);
-		var listWidget = registry.byId("items_list");
+	//	var listWidget = registry.byId("items_list");
 		var datamodel = at(datamodel, "model");
-		listWidget.set("children", datamodel);		
+	//	listWidget.set("children", datamodel);
+
+		var tempStr = '<li  data-dojo-type="dojox.mobile.ListItem" clickable="true" class=mblVariableHeight data-dojo-props="onClick: function(){todoApp.showItemDetails(\'#{this.index}\');}" transitionOptions=\'{title:"Detail",target:"details,detail",url: "#details,detail"}\'>'
+					 + '<table><tr>'
+					 + '<td><input preventTouch=\'true\' type=\'checkbox\' data-dojo-type="dojox.mobile.CheckBox" data-dojo-props="checked: at(\'rel:#{this.index}\',\'completed\')"/></td>'
+					 + '<td data-dojo-type="dojox.mvc.Output" data-dojo-props="value: at(\'rel:#{this.index}\',\'title\')"></td></tr></table>'
+					 + '</tr></table>'
+					 + '</li>';
+
+		if(!repeatWid) {
+			repeatWid = new Repeat({
+				exprchar:'#',					
+				templateString: tempStr
+			});
+			repeatWid.placeAt('items_list')
+			repeatWid.startup();
+		}
+		repeatWid.set("children", datamodel);
 	};
 
 	var showListType = function(){
@@ -51,6 +70,15 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 				todoApp.cachedDataModel[index] = itemlistmodel;
 				todoApp.currentItemListModel = itemlistmodel;
 			}
+			this.beforeDeactivate();
+			this.beforeActivate();
+			//		var transOpts = {
+			//			title:"Date",
+			//			target:"items,date",
+			//			url: "#items,date"
+			//		};
+			//		var e = window.event;
+			//		new TransitionEvent(e.srcElement,transOpts,e).dispatch();
 		},
 
 		beforeActivate: function(){
