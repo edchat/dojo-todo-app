@@ -1,6 +1,6 @@
 define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/registry",
-	"dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at"],
-function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
+	"dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at", "dojox/mvc/Group"],
+function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at, Group){
 	var itemlistmodel = null;
 	var listsmodel = null;
 	var signals = [];
@@ -98,38 +98,46 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at){
 			return;
 		}
 
-		var widget = registry.byId("item_detailsGroup");
+		//var widget = registry.byId("item_detailsGroup");
 		//widget.target = null;
 		itemlistmodel.set("cursorIndex",todoApp.selected_item);
-		widget.set("target", at(itemlistmodel, "cursor"));
 
 		if(!_detailsSetup){  // these only have to be setup once.
 			_detailsSetup = true;
 
+			var grpbinding = new Group({},"item_detailsGroup");
+			grpbinding.set("target", at(itemlistmodel, "cursor"));
+
 			// Setup data bindings here for the fields inside the item_detailsGroup.
+			// use at() to bind the attribute of the widget with the id to value from the model
+			var bindingArray = [
+				{"id":"detail_todo", "attribute":"value", "atparm1":'rel:', "atparm2":'title',"direction":at.both,"transform":null},
+				{"id":"detail_reminderDate", "attribute":"value", "atparm1":'rel:', "atparm2":'reminderDate',"direction":at.both,"transform":null},			
+				{"id":"detail_todoNote", "attribute":"value", "atparm1":'rel:', "atparm2":'notes',"direction":at.both,"transform":null},			
+				{"id":"detail_repeat", "attribute":"rightText", "atparm1":'rel:', "atparm2":'repeat',"direction":at.from,"transform":repeatTransform},			
+				{"id":"detail_priority", "attribute":"rightText", "atparm1":'rel:', "atparm2":'priority',"direction":at.from,"transform":priorityTransform},			
+				{"id":"detail_list", "attribute":"rightText", "atparm1":'rel:', "atparm2":'parentId',"direction":at.from,"transform":parentTitleTransform},			
+			]
 			
-			// use at() to bind the title into the ExpandingTextArea
-			registry.byId("detail_todo").set("value", at('rel:', 'title'));
-
-			// use at() to bind the reminderDate into the Output
-			registry.byId("detail_reminderDate").set("value", at('rel:','reminderDate'));
-
-			// use at() to bind the notes into the ExpandingTextArea
-			registry.byId("detail_todoNote").set("value", at('rel:', 'notes'));
-
-			// use at() with direction and transform to bind the repeat
-			registry.byId("detail_repeat").set("rightText", at('rel:', 'repeat').direction(at.from).transform(repeatTransform));
-
-			// use at() with direction and transform to bind the priority
-			registry.byId("detail_priority").set("rightText", at('rel:', 'priority').direction(at.from).transform(priorityTransform));
-
-			// use at() with direction and transform to bind the parentId
-			registry.byId("detail_list").set("rightText", at('rel:', 'parentId').direction(at.from).transform(parentTitleTransform));
-
+			// bind all of the attrbutes setup in the bindingArray, this is a one time setup
+			bindAttributes(bindingArray);
+		}else{
+			// set the item_detailsGroup target to show the details for the selected item
+			var grpbinding = registry.byId("item_detailsGroup")
+			grpbinding.set("target", at(itemlistmodel, "cursor"));
 		}
 
 		domStyle.set(dom.byId("detailwrapper"), "visibility", "visible"); // show the items list
 
+	};
+
+	var bindAttributes = function(bindingArray){
+		for(var i=0; i<bindingArray.length; i++){
+				item = bindingArray[i]; 
+				var binding = at(item.atparm1, item.atparm2).direction(item.direction);
+				if (item.transform){ binding.transform(item.transform); };
+				registry.byId(item.id).set(item.attribute, binding);
+		}			
 	};
 
 	var show = function(){

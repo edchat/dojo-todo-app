@@ -1,7 +1,7 @@
 define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/when", "dijit/registry", "dojox/mvc/at",
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
-        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore"],
-function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore){
+        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore","demos/todoApp/widgets/ItemListWidget"],
+function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, ItemListWidget){
 	//set todoApp showItemDetails function
 	todoApp.cachedDataModel = {};
 	todoApp.currentItemListModel = null;
@@ -16,10 +16,15 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 	var itemlistmodel = null;
 
 	var showListData = function(datamodel){
-		//console.log("in showListData datamodel = ",datamodel);
+		console.log("in showListData datamodel = ",datamodel);
+		var test = new ItemListWidget(); //.placeAt('dateListWid').startup();
+		test.placeAt('dateListWid');
+		test.startup();
 		var listWidget = registry.byId("itemsDate_list");
+		var listWidgetd = dom.byId("itemsDate_list");
 		var datamodel = at(datamodel, "model");
 		listWidget.set("children", datamodel);		
+		console.log("end of showListData datamodel = ",datamodel);
 	};
 
 	var showListType = function(){

@@ -1,7 +1,8 @@
 define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/when", "dijit/registry", "dojox/mvc/at",
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
         "dojo/data/ItemFileWriteStore", "dojo/store/DataStore", "dojox/mvc/Repeat", 
-        "dojo/_base/declare", "dojox/mobile/TransitionEvent"],
+        "dojo/_base/declare", "dojox/mobile/TransitionEvent", "dojox/mobile/ListItem",
+        "dojox/mvc/Output", "dojox/mobile/CheckBox"],
 function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, 
 	ItemFileWriteStore, DataStore, Repeat, declare, TransitionEvent){
 	//set todoApp showItemDetails function
@@ -23,17 +24,19 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 		var datamodel = at(datamodel, "model");
 	//	listWidget.set("children", datamodel);
 
-		var tempStr = '<li  data-dojo-type="dojox.mobile.ListItem" clickable="true" class=mblVariableHeight data-dojo-props="onClick: function(){todoApp.showItemDetails(\'#{this.index}\');}" transitionOptions=\'{title:"Detail",target:"details,detail",url: "#details,detail"}\'>'
+		var tempStr = '<li data-dojo-type="dojox.mobile.ListItem" clickable="true" class=mblVariableHeight data-dojo-props="onClick: function(){todoApp.showItemDetails(\'#{this.index}\');}" transitionOptions=\'{title:"Detail",target:"details,detail",url: "#details,detail"}\'>'
 					 + '<table><tr>'
 					 + '<td><input preventTouch=\'true\' type=\'checkbox\' data-dojo-type="dojox.mobile.CheckBox" data-dojo-props="checked: at(\'rel:#{this.index}\',\'completed\')"/></td>'
 					 + '<td data-dojo-type="dojox.mvc.Output" data-dojo-props="value: at(\'rel:#{this.index}\',\'title\')"></td></tr></table>'
 					 + '</tr></table>'
 					 + '</li>';
+//		var tempStr = '<div data-dojo-type="dojox/mvc/Output" data-dojo-props="value: at(\'rel:#{this.index}\',\'title\')"></div>';
 
 		if(!repeatWid) {
 			repeatWid = new Repeat({
 				exprchar:'#',					
-				templateString: tempStr
+				templateString: tempStr,
+				widgetsInTemplate: true
 			});
 			repeatWid.placeAt('items_list')
 			repeatWid.startup();

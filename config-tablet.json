@@ -34,7 +34,8 @@
 		"dojox/mvc/Repeat",
 		"dojox/mvc/Group",
 		"dojox/mvc/Output",
-		"dojox/mvc/at"
+		"dojox/mvc/at",
+		"demos/todoApp/widgets/ItemListWidget"		
 	],
 	// Modules for the application.  They are basically used as the second
 	// array of mixins in a dojo.declare().  Modify the top level behavior
