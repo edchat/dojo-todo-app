@@ -1,28 +1,27 @@
 <div>
 	<div>
 			<ul data-dojo-type="dojox.mobile.RoundRectList" id="itemsDate_list"   
-			data-dojo-mixins="dojox/mvc/Repeat" 
+			data-dojo-mixins="dojox/mvc/Repeat" data-dojo-attach-point="repeat"
 			data-dojo-props="exprchar:'#'">
 				<li  data-dojo-type="dojox.mobile.ListItem" clickable="true" class=mblVariableHeight
-					data-dojo-props="onClick: function(){todoApp.showItemDetails('#{this.index}');}"
-					transitionOptions='{title:"Detail",target:"details,detail",url: "#details,detail"}'>  
+					id="itemsDate_li#{this.index}"
+					transitionOptions='{title:"Detail",target:"details,detail",url: "#details,detail"}'>
 					<table>
 						<tr>
-							<td><input preventTouch='true' type='checkbox' 
-								data-dojo-type="dojox.mobile.CheckBox" 
-								data-dojo-props="checked: at('rel:#{this.index}','completed')"/></td>
-							<td data-dojo-type="dojox.mvc.Output" 
-								data-dojo-props="value: at('rel:#{this.index}','title')"></td>
+							<td><input preventTouch='true' type='checkbox'
+								id="itemsDate_check#{this.index}"
+								data-dojo-type="dojox.mobile.CheckBox"/></td>
+							<td id="itemsDate_item#{this.index}" data-dojo-type="dojox.mvc.Output"></td>
 						</tr>
 						<tr>
 							<td></td>
-							<td>	
-								<div data-dojo-type="dojox.mvc.Output" style="font-size: .6em; color: #324f85;" 
-									data-dojo-props="value: at('rel:#{this.index}','reminderDate')"></div>
-							</td>					
+							<td>
+								<div id="itemsDate_reminder#{this.index}"
+									data-dojo-type="dojox.mvc.Output" style="font-size: .6em; color: #324f85;"></div>
+							</td>
 						</tr>
 					</table>
 				</li>
 		</ul>
-	</div>			
+	</div>
 </div>

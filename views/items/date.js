@@ -14,16 +14,18 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 
 	var listsmodel = null;
 	var itemlistmodel = null;
+	var itemList = null;
 
 	var showListData = function(datamodel){
 		console.log("in showListData datamodel = ",datamodel);
-		var test = new ItemListWidget(); //.placeAt('dateListWid').startup();
-		test.placeAt('dateListWid');
-		test.startup();
-		var listWidget = registry.byId("itemsDate_list");
-		var listWidgetd = dom.byId("itemsDate_list");
-		var datamodel = at(datamodel, "model");
-		listWidget.set("children", datamodel);		
+		if(!itemList){
+			// create the ItemListWidget here
+			itemList = new ItemListWidget(); //.placeAt('dateListWid').startup();
+			itemList.placeAt('dateListWid');
+			itemList.startup();
+		}
+		// set the model on the ItemListWidget here
+		itemList.setModel(datamodel);
 		console.log("end of showListData datamodel = ",datamodel);
 	};
 
