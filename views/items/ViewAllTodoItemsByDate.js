@@ -53,8 +53,8 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 
-			if (itemlistmodel && (itemlistmodel.model[0].parentId || 0 == itemlistmodel.model[0].parentId)) {
-				var index = itemlistmodel.model[0].parentId;
+			if (itemlistmodel && (itemlistmodel.model[0].listId || 0 == itemlistmodel.model[0].listId)) {
+				var index = itemlistmodel.model[0].listId;
 				todoApp.cachedDataModel[index] = itemlistmodel;
 				todoApp.currentItemListModel = itemlistmodel;
 			}

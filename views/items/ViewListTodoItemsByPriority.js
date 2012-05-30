@@ -24,7 +24,7 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 		var datamodel = at(datamodel, "model");
 	//	listWidget.set("children", datamodel);
 
-		var tempStr = '<li data-dojo-type="dojox.mobile.ListItem" clickable="true" class=mblVariableHeight data-dojo-props="onClick: function(){todoApp.showItemDetails(\'#{this.index}\');}" transitionOptions=\'{title:"Detail",target:"details,detail",url: "#details,detail"}\'>'
+		var tempStr = '<li data-dojo-type="dojox.mobile.ListItem" clickable="true" class=mblVariableHeight data-dojo-props="onClick: function(){todoApp.showItemDetails(\'#{this.index}\');}" transitionOptions=\'{title:"Detail",target:"details,EditTodoItem",url: "#details,EditTodoItem"}\'>'
 					 + '<table><tr>'
 					 + '<td><input preventTouch=\'true\' type=\'checkbox\' data-dojo-type="dojox.mobile.CheckBox" data-dojo-props="checked: at(\'rel:#{this.index}\',\'completed\')"/></td>'
 					 + '<td data-dojo-type="dojox.mvc.Output" data-dojo-props="value: at(\'rel:#{this.index}\',\'title\')"></td></tr></table>'
@@ -68,8 +68,8 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 			itemlistmodel = this.loadedModels.itemlistmodel;
 			listsmodel = this.loadedModels.listsmodel;
 
-			if (itemlistmodel && (itemlistmodel.model[0].parentId || 0 == itemlistmodel.model[0].parentId)) {
-				var index = itemlistmodel.model[0].parentId;
+			if (itemlistmodel && (itemlistmodel.model[0].listId || 0 == itemlistmodel.model[0].listId)) {
+				var index = itemlistmodel.model[0].listId;
 				todoApp.cachedDataModel[index] = itemlistmodel;
 				todoApp.currentItemListModel = itemlistmodel;
 			}
@@ -143,8 +143,8 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 					}
 				}
 			}else{
-				//var query = {"parentId": select_data.id, "completed": false};
-				query["parentId"] = select_data.id;  // query for items in this list which are not completed.
+				//var query = {"listId": select_data.id, "completed": false};
+				query["listId"] = select_data.id;  // query for items in this list which are not completed.
 				query["completed"] = false;          
 				
 				// selected an item so uncheck complete on configure or nav
