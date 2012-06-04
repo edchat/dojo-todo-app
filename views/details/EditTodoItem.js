@@ -1,6 +1,6 @@
 define(["dojo/_base/lang", "dojo/dom", "dojo/dom-style", "dojo/on", "dijit/registry",
-	"dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at", "dojox/mvc/Group"],
-function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at, Group){
+	"dojox/mobile/TransitionEvent", "dojox/mvc/getStateful", "dojox/mvc/at", "dojox/mvc/Group", "dojo/date/stamp"],
+function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at, Group, stamp){
 	var itemlistmodel = null;
 	var listsmodel = null;
 	var signals = [];
@@ -8,6 +8,18 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at, Gr
 	var _isDelete = false;
 	var _detailsSetup = false;
 	todoApp._addNewItemCommit = false; // identify the new item is committed
+
+	dateClassTransform2 = {
+		format : function(value) {
+			// check to see if the date is in the past, if so display it in red
+			if(value && value < stamp.toISOString(new Date(), {selector: "date"})){
+				return "dateLabelInvalid";
+			}else{
+				return "";
+			}
+		}
+	};
+
 
 	// transform the repeat to the correct text
 	repeatTransform = {
@@ -117,6 +129,7 @@ function(lang, dom, domStyle, on, registry, TransitionEvent, getStateful, at, Gr
 			var bindingArray = [
 				{"id":"detail_todo", "attribute":"value", "atparm1":'rel:', "atparm2":'title',"direction":at.both,"transform":null},
 				{"id":"detail_reminderDate", "attribute":"value", "atparm1":'rel:', "atparm2":'reminderDate',"direction":at.both,"transform":null},			
+				{"id":"detail_reminderDate", "attribute":"class", "atparm1":'rel:', "atparm2":'reminderDate',"direction":at.from,"transform":dateClassTransform2},			
 				{"id":"detail_todoNote", "attribute":"value", "atparm1":'rel:', "atparm2":'notes',"direction":at.both,"transform":null},			
 				{"id":"detail_repeat", "attribute":"rightText", "atparm1":'rel:', "atparm2":'repeat',"direction":at.from,"transform":repeatTransform},			
 				{"id":"detail_priority", "attribute":"rightText", "atparm1":'rel:', "atparm2":'priority',"direction":at.from,"transform":priorityTransform},			

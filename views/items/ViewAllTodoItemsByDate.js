@@ -1,7 +1,7 @@
 define(["dojo/dom", "dojo/_base/lang", "dojo/dom-style", "dojo/when", "dijit/registry", "dojox/mvc/at",
         "dojox/mvc/EditStoreRefListController", "dojox/mvc/getStateful", 
-        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore","demos/todoApp/widgets/ItemListWidget"],
-function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, ItemListWidget){
+        "dojo/data/ItemFileWriteStore", "dojo/store/DataStore","demos/todoApp/widgets/ItemListWidget", "dojo/date/stamp"],
+function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, getStateful, ItemFileWriteStore, DataStore, ItemListWidget, stamp){
 	//set todoApp showItemDetails function
 	todoApp.cachedDataModel = {};
 	todoApp.currentItemListModel = null;
@@ -92,7 +92,8 @@ function(dom, lang, domStyle, when, registry, at, EditStoreRefListController, ge
 			var select_data = listsmodel.model[todoApp.selected_configuration_item];
 			var query = {}; // query empty to show all items by date
 			// set options to sort by reminderDate and priority
-			var options = {sort:[{attribute:"reminderDate", descending: true},{attribute:"priority", descending: true}]};
+//			var options = {sort:[{attribute:"reminderDate", descending: true},{attribute:"priority", descending: true}]};
+			var options = {sort:[{attribute:"reminderDate", ascending: true},{attribute:"priority", descending: true}]};
 			if(todoApp.selected_configuration_item == -1){
 				if(registry.byId("configure_completeLi")){
 					registry.byId("configure_completeLi").set("checked",false);
